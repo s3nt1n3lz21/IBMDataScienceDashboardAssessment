@@ -46,19 +46,24 @@ app.layout = html.Div([
     html.Div([
         html.Label("Select Statistics:"),
         dcc.Dropdown(
-            id='...........',
-            options=...................,
-            value='.................',
-            placeholder='.................'
+            id='dropdown-statistics',
+                   options=[
+                           {'label': 'Yearly Statistics', 'value': 'Yearly Statistics'},
+                           {'label': 'Recession Period Statistics', 'value': 'Recession Period Statistics'}
+                           ],
+            value='Select Statistics',
+            placeholder='Select a report type'
         )
     ]),
     html.Div(dcc.Dropdown(
             id='select-year',
             options=[{'label': i, 'value': i} for i in year_list],
-            value='...................'
+            value='Select-year',
+            placeholder='Select-year'
         )),
     html.Div([#TASK 2.3: Add a division for output display
-    html.Div(id='..........', className='..........', style={.........}),])
+        html.Div(id='output-container', className='chart-grid', style={'display': 'flex'})
+    ])
 ])
 #TASK 2.4: Creating Callbacks
 # Define the callback function to update the input container based on the selected statistics
@@ -155,18 +160,19 @@ def update_output_container(....., .....):
          # grouping data for plotting.
          # Hint:Use the columns Year and Automobile_Sales
         avr_vdata=yearly_data.groupby.......................
-        Y_chart3 = dcc.Graph( figure.................,title='Average Vehicles Sold by Vehicle Type in the year {}'.format(input_year)))
+        Y_chart3 = dcc.Graph( figure.................,title='Average Vehicles Sold by Vehicle Type in the year {}'.format(input_year))
 
     # Total Advertisement Expenditure for each vehicle using pie chart
          # grouping data for plotting.
          # Hint:Use the columns Vehicle_Type and Advertising_Expenditure
-        exp_data=yearly_data.groupby(..................
+        exp_data=yearly_data.groupby(..................)
         Y_chart4 = dcc.Graph(...............)
 
 #TASK 2.6: Returning the graphs for displaying Yearly data
         return [
                 html.Div(className='chart-item', children=[html.Div(children=Y_chart1),html.Div(children=Y_chart2)],style={'display':'flex'}),
                 html.Div(className='chart-item', children=[...........],style={'display': 'flex'})
+        ]
         
     else:
         return None
