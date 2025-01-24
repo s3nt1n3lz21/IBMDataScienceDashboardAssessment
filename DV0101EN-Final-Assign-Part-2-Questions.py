@@ -104,34 +104,42 @@ def update_output_container(report_type, input_year):
         
         # use groupby to create relevant data for plotting
         #Hint:Use Vehicle_Type and Automobile_Sales columns
-        average_sales = recession_data.groupby()                 
+        average_sales = recession_data.groupby('Vehicle_Type')['Automobile_Sales'].mean().reset_index()                 
         R_chart2  = dcc.Graph(
-            figure=px.bar(.............,
-            x='.............',
-            y='.............',
-            title="............."))
+            figure=px.bar(average_sales,
+            x='Vehicle_Type',
+            y='Automobile_Sales',
+            title="Average Number Of Vehicles Sold By Vehicle Type During Recessions"))
         
 # Plot 3 Pie chart for total expenditure share by vehicle type during recessions
         # grouping data for plotting
 	# Hint:Use Vehicle_Type and Advertising_Expenditure columns
-        exp_rec= ....................
-        R_chart3 = .............
+        exp_rec= recession_data.groupby('Vehicle_Type')['Advertising_Expenditure'].mean().reset_index()
+        R_chart3 = dcc.Graph(
+            figure=px.pie(exp_rec,
+                values='Advertising_Expenditure',
+                names='Vehicle_Type',
+                title="Total Expenditure Share By Vehicle Type During Recessions"
+            )
+        )
 
 # Plot 4 bar chart for the effect of unemployment rate on vehicle type and sales
         #grouping data for plotting
 	# Hint:Use unemployment_rate,Vehicle_Type and Automobile_Sales columns
-        unemp_data = recession_data.groupby(...............)
-        R_chart4 = dcc.Graph(figure=px.bar(...............,
-        x='...............',
-        y='...............',
-        labels={'unemployment_rate': 'Unemployment Rate', 'Automobile_Sales': 'Average Automobile Sales'},
-        title='Effect of Unemployment Rate on Vehicle Type and Sales'))
+        unemp_data = recession_data.groupby(['unemployment_rate', 'Vehicle_Type'])['Automobile_Sales'].mean().reset_index()
+        R_chart4 = dcc.Graph(figure=px.bar(unemp_data,
+            x='Vehicle_Type',
+            y='Automobile_Sales',
+            color='unemployment_rate'
+            labels={'unemployment_rate': 'Unemployment Rate', 'Automobile_Sales': 'Average Automobile Sales'},
+            title='Effect of Unemployment Rate on Vehicle Type and Sales')
+        )
 
 
         return [
-             html.Div(className='chart-item', children=[html.Div(children=R_chart1),html.Div(children=R_chart2)],style={'display': 'flex'}),
-            html.Div(className='chart-item', children=[...........],style={'display': 'flex'})
-            ]
+            html.Div(className='chart-item', children=[html.Div(children=R_chart1),html.Div(children=R_chart2)],style={'display': 'flex'}),
+            html.Div(className='chart-item', children=[html.Div(children=R_chart3),html.Div(children=R_chart4)],style={'display': 'flex'})
+        ]
 
 # TASK 2.6: Create and display graphs for Yearly Report Statistics
  # Yearly Statistic Report Plots
