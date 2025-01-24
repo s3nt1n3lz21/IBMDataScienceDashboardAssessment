@@ -80,12 +80,12 @@ def update_input_container(selected_statistics):
 #Callback for plotting
 # Define the callback function to update the input container based on the selected statistics
 @app.callback(
-    Output(component_id='...', component_property='...'),
-    [Input(component_id='...', component_property='...'), Input(component_id='...', component_property='...')])
+    Output(component_id='output-container', component_property='children'),
+    [Input(component_id='dropdown-statistics', component_property='value'), Input(component_id='select-year', component_property='value')])
 
 
-def update_output_container(....., .....):
-    if ..... == 'Recession Period Statistics':
+def update_output_container(report_type, input_year):
+    if report_type == 'Recession Period Statistics':
         # Filter the data for recession periods
         recession_data = data[data['Recession'] == 1]
         
@@ -95,16 +95,16 @@ def update_output_container(....., .....):
         # use groupby to create relevant data for plotting
         yearly_rec=recession_data.groupby('Year')['Automobile_Sales'].mean().reset_index()
         R_chart1 = dcc.Graph(
-            figure=px......(....., 
-                x='....',
-                y='......',
+            figure=px.line(yearly_rec, 
+                x='Year',
+                y='Automobile_Sales',
                 title="Average Automobile Sales fluctuation over Recession Period"))
 
 #Plot 2 Calculate the average number of vehicles sold by vehicle type       
         
         # use groupby to create relevant data for plotting
         #Hint:Use Vehicle_Type and Automobile_Sales columns
-        average_sales = recession_data.groupby(.............)                 
+        average_sales = recession_data.groupby()                 
         R_chart2  = dcc.Graph(
             figure=px.bar(.............,
             x='.............',
@@ -136,8 +136,8 @@ def update_output_container(....., .....):
 # TASK 2.6: Create and display graphs for Yearly Report Statistics
  # Yearly Statistic Report Plots
     # Check for Yearly Statistics.                             
-    elif (input_year and selected_statistics=='...............') :
-        yearly_data = data[data['Year'] == ......]
+    elif (input_year and selected_statistics=='Yearly Statistics') :
+        yearly_data = data[data['Year'] == input_year]
                               
 
                               
